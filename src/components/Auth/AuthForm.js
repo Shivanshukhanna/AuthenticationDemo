@@ -3,7 +3,7 @@ import { useRef, useState } from 'react';
 import classes from './AuthForm.module.css';
 
 const AuthForm = () => {
-  const [isLoading,setisLoading]=useState(true);
+  const [isLoading,setisLoading]=useState(false);
   const emailIdRef=useRef();
   const passwordRef=useRef();
   const [isLogin, setIsLogin] = useState(true);
@@ -15,12 +15,12 @@ const AuthForm = () => {
     event.preventDefault();
     const enteredEmail=emailIdRef.current.value;
     const enteredPassword=passwordRef.current.value;
-
+    setisLoading(true);
     if(isLogin){
 
     }
     else{
-      {isLoading}
+      
       let url='https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyCw436B57QFRRB-tv1gbHWXcmkPgKOnqTM'
       fetch(url,
         {
@@ -33,8 +33,8 @@ const AuthForm = () => {
            headers:{
              'Content-Type':'application/json'
            }
-        }).then(res=>{
-          {setisLoading(false)}
+        }).then((res)=>{
+          setisLoading(false)
           if(res.ok){
 
           }
