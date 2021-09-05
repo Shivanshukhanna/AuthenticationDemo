@@ -3,6 +3,7 @@ import { useRef, useState } from 'react';
 import classes from './AuthForm.module.css';
 
 const AuthForm = () => {
+  const [isLoading,setisLoading]=useState(true);
   const emailIdRef=useRef();
   const passwordRef=useRef();
   const [isLogin, setIsLogin] = useState(true);
@@ -19,6 +20,7 @@ const AuthForm = () => {
 
     }
     else{
+      {isLoading}
       let url='https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyCw436B57QFRRB-tv1gbHWXcmkPgKOnqTM'
       fetch(url,
         {
@@ -32,11 +34,16 @@ const AuthForm = () => {
              'Content-Type':'application/json'
            }
         }).then(res=>{
+          {setisLoading(false)}
           if(res.ok){
 
           }
           else{
             return res.json().then(data=>{
+              const errorMessage="Signup Failed";
+              if(data && data.error && data.error.message){
+                errorMessage=data.error.message
+              }
               console.log(data);
             })
           }
@@ -57,7 +64,8 @@ const AuthForm = () => {
           <input type='password' id='password' required ref={passwordRef}/>
         </div>
         <div className={classes.actions}>
-          <button>{isLogin ? 'Login' : 'Create Account'}</button>
+          {!isLoading && <button>{isLogin ? 'Login' : 'Create Account'}</button>}
+          {isLoading &&<p>"Loading"</p>}
           <button
             type='button'
             className={classes.toggle}
