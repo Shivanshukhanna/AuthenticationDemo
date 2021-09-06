@@ -1,8 +1,10 @@
-import { useRef, useState } from 'react';
+import { useContext, useRef, useState } from 'react';
+import AuthContext from '../../Store/Cart-context';
 
 import classes from './AuthForm.module.css';
 
 const AuthForm = () => {
+  const authCtx=useContext(AuthContext)
   const [isLoading, setisLoading] = useState(false);
   const emailIdRef = useRef();
   const passwordRef = useRef();
@@ -39,8 +41,7 @@ const AuthForm = () => {
       setisLoading(false)        
       const data=await response.json();
       if (response.ok) {
-        
-        console.log(data)
+        authCtx.login(data.idToken)
       }
       else {
 
